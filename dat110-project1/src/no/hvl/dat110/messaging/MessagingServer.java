@@ -26,7 +26,16 @@ public class MessagingServer {
 	// accept an incoming connection from a client
 	public Connection accept() {
 
-		Connection connection = null;
+		try {
+			welcomeSocket.accept();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		int port = welcomeSocket.getLocalPort();
+		MessagingClient messagingClient = new MessagingClient(null, port);
+		
+		Connection connection;
 
 		// TODO
 		// accept TCP connection on welcome socket and create messaging connection

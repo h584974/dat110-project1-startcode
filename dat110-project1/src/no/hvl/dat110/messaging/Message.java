@@ -41,6 +41,10 @@ public class Message {
 	}
 
 	public void decapsulate(byte[] received) {
+		if(received == null) {
+			payload = null;
+			return;
+		}
 		
 		int numberOfBytes = received[0];
 		byte[] newPayload = new byte[numberOfBytes];
