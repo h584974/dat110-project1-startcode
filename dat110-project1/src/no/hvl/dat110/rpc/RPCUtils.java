@@ -13,12 +13,12 @@ public class RPCUtils {
 	
 	public static byte[] marshallString(byte rpcid, String str) {
 
-		byte[] encoded;
-
-		// TODO: marshall RPC identifier and string into byte array
-
-		if (true) {
-			throw new UnsupportedOperationException(TODO.method());
+		byte[] stringBytes = str.getBytes();
+		byte[] encoded = new byte[stringBytes.length + 1];
+		encoded[0] = rpcid;
+		
+		for(int i = 1; i < encoded.length; i++) {
+			encoded[i] = stringBytes[i - 1];
 		}
 
 		return encoded;
