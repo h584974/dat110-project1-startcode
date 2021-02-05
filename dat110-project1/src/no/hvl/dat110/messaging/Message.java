@@ -1,7 +1,6 @@
 package no.hvl.dat110.messaging;
 
 import java.util.Arrays;
-
 import no.hvl.dat110.TODO;
 
 public class Message {
@@ -9,7 +8,7 @@ public class Message {
 	private byte[] payload;
 
 	public Message(byte[] payload) {
-		this.payload = payload; // TODO: check for length within boundary
+		this.payload = payload.length <= 128 ? payload : null;
 	}
 
 	public Message() {
@@ -22,26 +21,41 @@ public class Message {
 
 	public byte[] encapsulate() {
 		
-		byte[] encoded = null;
+		byte[] encoded = new byte[128];
 		
-		// TODO
-		// encapulate/encode the payload of this message in the
-		// encoded byte array according to message format
-		
-		if (true)
-		   throw new UnsupportedOperationException(TODO.method());
+		for(int i = 0; i < 128; i++) {
+			
+			if(i == 0) {
+				encoded[i] = (byte)payload.length;
+			}
+			else if(i < payload.length + 1) {
+				encoded[i] = payload[i - 1];
+			}
+			else {
+				encoded[i] = (byte)0;
+			}
+			
+		}
 
-		return encoded;
-		
+		return encoded;	
 	}
 
 	public void decapsulate(byte[] received) {
-
-		// TODO
-		// decapsulate the data contained in the received byte array and store it 
-		// in the payload of this message
 		
-		throw new UnsupportedOperationException(TODO.method());
+		int numberOfBytes = received[0];
+		byte[] newPayload = new byte[numberOfBytes];
 		
+		for(int i = 1; i <= numberOfBytes; i++) {
+			
+			if(i < payload.length + 1) {
+				newPayload[i - 1] = received[i];
+			}
+			else {
+				break;
+			}
+			
+		}
+		
+		payload = newPayload;
 	}
 }
