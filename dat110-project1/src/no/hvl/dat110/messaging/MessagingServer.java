@@ -26,19 +26,13 @@ public class MessagingServer {
 	// accept an incoming connection from a client
 	public Connection accept() {
 		
+		Connection connection = null;
 		try {
-			welcomeSocket.accept();
+			Socket socket = welcomeSocket.accept();
+			connection = new Connection(socket);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		Socket socket = new Socket();
-		try {
-			socket.bind(welcomeSocket.getLocalSocketAddress());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		Connection connection = new Connection(socket);
 
 		return connection;
 

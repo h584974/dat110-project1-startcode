@@ -51,7 +51,7 @@ public class Message {
 		
 		for(int i = 1; i <= numberOfBytes; i++) {
 			
-			if(i < payload.length + 1) {
+			if(i < newPayload.length + 1) {
 				newPayload[i - 1] = received[i];
 			}
 			else {
