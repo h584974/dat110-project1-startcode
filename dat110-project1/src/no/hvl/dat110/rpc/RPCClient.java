@@ -25,7 +25,7 @@ public class RPCClient {
 	
 	public void disconnect() {
 		
-		connection = null;
+		connection.close();
 		
 	}
 	
@@ -33,8 +33,8 @@ public class RPCClient {
 		
 		Message msg = new Message(rpcrequest);
 		connection.send(msg);
-		byte[] rpcreply = connection.receive().getData();
 		
+		byte[] rpcreply = connection.receive().getData();
 		return rpcreply;
 		
 	}

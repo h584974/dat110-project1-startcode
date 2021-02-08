@@ -30,7 +30,11 @@ public class MessagingServer {
 		try {
 			Socket socket = welcomeSocket.accept();
 			connection = new Connection(socket);
-		} catch (IOException e) {
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		catch (NullPointerException e) {
 			e.printStackTrace();
 		}
 
