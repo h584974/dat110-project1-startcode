@@ -1,5 +1,6 @@
 package no.hvl.dat110.rpc;
 
+import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import no.hvl.dat110.TODO;
@@ -70,16 +71,21 @@ public class RPCUtils {
 	}
 
 	public static byte[] marshallInteger(byte rpcid, int x) {
-
-		ByteBuffer b = ByteBuffer.allocate(4);
-		b.putInt(x);
-		byte[] intAsBytes = b.array();
+		
+		ByteBuffer bb = ByteBuffer.allocate(4); 
+	    bb.putInt(x);
+		byte[] intAsBytes = bb.array();
 		
 		byte[] encoded = new byte[5];
 		encoded[0] = rpcid;
 		
 		for(int i = 1; i < encoded.length; i++) {
-			encoded[i] = intAsBytes[i - 1];
+			if(i > intAsBytes.length) {
+				encoded[i] = 0;
+			}
+			else {
+				encoded[i] = intAsBytes[i - 1];
+			}
 		}
 
 		return encoded;
@@ -88,7 +94,13 @@ public class RPCUtils {
 
 	public static int unmarshallInteger(byte[] data) {
 
-		int decoded = ByteBuffer.wrap(data).getInt();
+		byte[] intAsBytes = new byte[4];
+		
+		for(int i = 1; i < data.length; i++) {
+			intAsBytes[i -1] = data[i];
+		}
+		
+		int decoded = ByteBuffer.wrap(intAsBytes).getInt();
 
 		return decoded;
 
